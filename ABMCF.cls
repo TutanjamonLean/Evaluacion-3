@@ -15,7 +15,7 @@ Private base As Database
 Private registro As Recordset
 Public Function Conector(NombreTabla As String)
 
-    Set base = OpenDatabase("C:\Documents and Settings\asdakj\Escritorio\ABMCF\database\DataBase.mdb")
+    Set base = OpenDatabase(App.Path & "\database\DataBase.mdb")
     
     Set registro = base.OpenRecordset(NombreTabla, dbOpenTable)
 
