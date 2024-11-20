@@ -30,11 +30,27 @@ Begin VB.Form Form2
       Top             =   600
       Visible         =   0   'False
       Width           =   10095
+      Begin VB.TextBox Text1 
+         Height          =   495
+         Index           =   2
+         Left            =   2400
+         TabIndex        =   15
+         Top             =   2880
+         Width           =   2055
+      End
+      Begin VB.TextBox Text1 
+         Height          =   495
+         Index           =   1
+         Left            =   2400
+         TabIndex        =   14
+         Top             =   2040
+         Width           =   2055
+      End
       Begin VB.CommandButton Command4 
          Caption         =   "Limpiar"
          Height          =   615
          Left            =   6120
-         TabIndex        =   15
+         TabIndex        =   13
          Top             =   2880
          Width           =   1935
       End
@@ -42,7 +58,7 @@ Begin VB.Form Form2
          Caption         =   "Eliminar"
          Height          =   615
          Left            =   6120
-         TabIndex        =   14
+         TabIndex        =   12
          Top             =   2160
          Width           =   1935
       End
@@ -50,7 +66,7 @@ Begin VB.Form Form2
          Caption         =   "Modificar"
          Height          =   615
          Left            =   6120
-         TabIndex        =   13
+         TabIndex        =   11
          Top             =   1440
          Width           =   1935
       End
@@ -58,33 +74,20 @@ Begin VB.Form Form2
          Caption         =   "Agregar"
          Height          =   615
          Left            =   6120
-         TabIndex        =   12
+         TabIndex        =   10
          Top             =   720
          Width           =   1935
       End
       Begin VB.TextBox Text4 
          Height          =   615
          Left            =   1800
-         TabIndex        =   11
+         TabIndex        =   9
          Top             =   3720
          Width           =   2655
       End
-      Begin VB.TextBox Text3 
-         Height          =   495
-         Left            =   2400
-         TabIndex        =   10
-         Top             =   2880
-         Width           =   2055
-      End
-      Begin VB.TextBox Text2 
-         Height          =   495
-         Left            =   2400
-         TabIndex        =   9
-         Top             =   2040
-         Width           =   2055
-      End
       Begin VB.TextBox Text1 
          Height          =   495
+         Index           =   0
          Left            =   2400
          TabIndex        =   8
          Top             =   1200
@@ -223,9 +226,9 @@ Dim nom, ape, Dire, CUIT As String
 Dim filaselect As Integer
 Private Sub Command1_Click()
 
-    nom = Text1.Text
-    ape = Text2.Text
-    Dire = Text3.Text
+    nom = Text1(0).Text
+    ape = Text1(1).Text
+    Dire = Text1(2).Text
     CUIT = Text4.Text
     
     
@@ -254,23 +257,17 @@ Private Sub Command1_Click()
     
 End Sub
 Private Sub Command2_Click()
-
-    filaselect = Grilla.Row
-
-    If ConductorCli.ModificarCampo(CStr(nom), CStr(ape), CStr(Dire), CStr(CUIT)) = True Then
     
-        With Grilla
-        
-            .TextMatrix(filaselect, 1) = nom
-            .TextMatrix(filaselect, 2) = ape
-            .TextMatrix(filaselect, 3) = Dire
-            .TextMatrix(filaselect, 4) = CUIT
-        
-        End With
+    ConductorCli.registro.Index = "IndiceCuit"
+    ConductorCli.registro.Seek "=", CUIT
+    
+    If ConductorCli.registro.NoMatch = False Then
         
         
         
     End If
+           
+    
 
 
 
@@ -347,4 +344,32 @@ Private Sub List1_Click()
         
 
 
+End Sub
+
+Private Sub Text1_KeyPress(Index As Integer, KeyAscii As Integer)
+    
+    If KeyAscii >= 48 And KeyAscii <= 57 Then
+        
+        KeyAscii = 0
+        
+    Else
+        
+        KeyAscii = KeyAscii
+        
+    End If
+    
+End Sub
+
+Private Sub Text4_KeyPress(KeyAscii As Integer)
+    
+    If KeyAscii >= 48 And KeyAscii <= 57 Then
+        
+        KeyAscii = KeyAscii
+        
+    Else
+        
+        KeyAscii = 0
+        
+    End If
+    
 End Sub
