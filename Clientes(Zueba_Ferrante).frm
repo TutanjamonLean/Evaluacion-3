@@ -25,32 +25,40 @@ Begin VB.Form Form2
          Strikethrough   =   0   'False
       EndProperty
       Height          =   5535
-      Left            =   4800
+      Left            =   4080
       TabIndex        =   2
-      Top             =   600
+      Top             =   480
       Visible         =   0   'False
       Width           =   10095
       Begin VB.TextBox Text1 
          Height          =   495
          Index           =   2
-         Left            =   2400
+         Left            =   2520
          TabIndex        =   15
-         Top             =   2880
-         Width           =   2055
+         Top             =   2040
+         Width           =   1935
       End
       Begin VB.TextBox Text1 
          Height          =   495
          Index           =   1
-         Left            =   2400
+         Left            =   2520
          TabIndex        =   14
-         Top             =   2040
-         Width           =   2055
+         Top             =   2880
+         Width           =   1935
+      End
+      Begin VB.TextBox Text1 
+         Height          =   495
+         Index           =   0
+         Left            =   2520
+         TabIndex        =   13
+         Top             =   1200
+         Width           =   1935
       End
       Begin VB.CommandButton Command4 
-         Caption         =   "Limpiar"
+         Caption         =   "Mostrar"
          Height          =   615
          Left            =   6120
-         TabIndex        =   13
+         TabIndex        =   12
          Top             =   2880
          Width           =   1935
       End
@@ -58,7 +66,7 @@ Begin VB.Form Form2
          Caption         =   "Eliminar"
          Height          =   615
          Left            =   6120
-         TabIndex        =   12
+         TabIndex        =   11
          Top             =   2160
          Width           =   1935
       End
@@ -66,7 +74,7 @@ Begin VB.Form Form2
          Caption         =   "Modificar"
          Height          =   615
          Left            =   6120
-         TabIndex        =   11
+         TabIndex        =   10
          Top             =   1440
          Width           =   1935
       End
@@ -74,24 +82,16 @@ Begin VB.Form Form2
          Caption         =   "Agregar"
          Height          =   615
          Left            =   6120
-         TabIndex        =   10
+         TabIndex        =   9
          Top             =   720
          Width           =   1935
       End
       Begin VB.TextBox Text4 
          Height          =   615
          Left            =   1800
-         TabIndex        =   9
+         TabIndex        =   8
          Top             =   3720
          Width           =   2655
-      End
-      Begin VB.TextBox Text1 
-         Height          =   495
-         Index           =   0
-         Left            =   2400
-         TabIndex        =   8
-         Top             =   1200
-         Width           =   2055
       End
       Begin VB.Label Label5 
          BackColor       =   &H80000001&
@@ -208,10 +208,10 @@ Begin VB.Form Form2
       EndProperty
       Height          =   1800
       ItemData        =   "Clientes(Zueba_Ferrante).frx":0000
-      Left            =   1440
+      Left            =   720
       List            =   "Clientes(Zueba_Ferrante).frx":0002
       TabIndex        =   0
-      Top             =   1680
+      Top             =   1080
       Width           =   3015
    End
 End
@@ -222,24 +222,24 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Dim ConductorCli As New CLientes
-Dim nom, ape, Dire, CUIT As String
-Dim filaselect As Integer
+Dim nom, ape, dire, CUIT As String
+Dim nuevoNom, nuevoApe, nuevoDire As String
 Private Sub Command1_Click()
 
     nom = Text1(0).Text
     ape = Text1(1).Text
-    Dire = Text1(2).Text
+    dire = Text1(2).Text
     CUIT = Text4.Text
     
     
-    If nom = "" Or ape = "" Or Dire = "" Or CUIT = "" Then
+    If nom = "" Or ape = "" Or dire = "" Or CUIT = "" Then
         
         MsgBox "Todos los campos son obligatorios", vbCritical, "Error"
         
         Exit Sub
     End If
 
-    If ConductorCli.Añadir(CStr(nom), CStr(ape), CStr(Dire), CStr(CUIT)) = True Then
+    If ConductorCli.Añadir(CStr(nom), CStr(ape), CStr(dire), CStr(CUIT)) = True Then
         
         MsgBox "añadido al sistema", vbInformation, "Exito"
         
@@ -249,37 +249,76 @@ Private Sub Command1_Click()
                 .TextMatrix(.Rows - 1, 0) = "Cliente"
                 .TextMatrix(.Rows - 1, 1) = nom
                 .TextMatrix(.Rows - 1, 2) = ape
-                .TextMatrix(.Rows - 1, 3) = Dire
+                .TextMatrix(.Rows - 1, 3) = dire
                 .TextMatrix(.Rows - 1, 4) = CUIT
             End With
+
               
     End If
     
 End Sub
 Private Sub Command2_Click()
-    
-    ConductorCli.registro.Index = "IndiceCuit"
-    ConductorCli.registro.Seek "=", CUIT
-    
-    If ConductorCli.registro.NoMatch = False Then
-        
-        
-        
-    End If
-           
-    
 
+    nuevoNom = Text1(0).Text
+    nuevoApe = Text1(1).Text
+    nuevoDire = Text1(2).Text
+
+    If CStr(nuevoNom) = "" Or CStr(nuevoApe) = "" Or CStr(nuevoDire) = "" Or CStr(CUIT) = "" Then
+        
+        MsgBox "Todos los campos son obligatorios", vbCritical, "Error"
+        
+        Exit Sub
+    End If
+
+
+    If ConductorCli.ModificarCampo(CStr(nuevoNom), CStr(nuevoApe), CStr(nuevoDire), CStr(CUIT)) Then
+    
+        
+        MsgBox "no esta ningun CUIT", vbCritical
+        
+    Else
+    
+        MsgBox "Registro modificado", vbInformation, "exito"
+
+    End If
+    
 
 
 End Sub
+Private Sub ActualizarGrilla(cuitGrilla As String, nomGrilla As String, apeGrilla As String, dire As String)
+Dim fila As Integer
+Dim search As Boolean
+    
+    
+    
+End Sub
+Private Sub Command3_Click()
+Dim resultado As Boolean
 
-Private Sub Form_Activate()
+    If CUIT = "" Then
     
-    '20-53822805-3
+        MsgBox "Campo obligatorio", vbCritical, "Error"
+        
+    End If
 
+
+    If MsgBox("¿Seguro de eliminar este campo?", vbYesNo + vbQuestion, "Confirmar") = vbNo Then
+        Exit Sub
+    End If
     
     
+    resultado = ConductorCli.BorrarDato(CUIT)
+        
+        
+    If resultado = True Then
+        MsgBox "Campo eliminado", vbInformation, "Exito"
+        
+    Else
     
+        MsgBox "No se encontro CUIt", vbCritical, "Error"
+        
+    End If
+
 End Sub
 
 Private Sub Form_Load()
@@ -314,24 +353,6 @@ Private Sub Form_Load()
     
 
 End Sub
-Private Sub Grilla_Click()
-
-    filaselect = Grilla.Row
-    
-    
-    If filaselect >= 1 Then
-    
-        nom = Grilla.TextMatrix(filaselect, 1)
-        ape = Grilla.TextMatrix(filaselect, 2)
-        Dire = Grilla.TextMatrix(filaselect, 3)
-        CUIT = Grilla.TextMatrix(filaselect, 4)
-    
-    End If
-
-
-
-
-End Sub
 
 Private Sub List1_Click()
 
@@ -347,15 +368,15 @@ Private Sub List1_Click()
 End Sub
 
 Private Sub Text1_KeyPress(Index As Integer, KeyAscii As Integer)
-    
+
     If KeyAscii >= 48 And KeyAscii <= 57 Then
-        
+
         KeyAscii = 0
-        
+
     Else
-        
+
         KeyAscii = KeyAscii
-        
+
     End If
     
 End Sub
@@ -363,13 +384,13 @@ End Sub
 Private Sub Text4_KeyPress(KeyAscii As Integer)
     
     If KeyAscii >= 48 And KeyAscii <= 57 Then
-        
+
         KeyAscii = KeyAscii
-        
+
     Else
-        
+
         KeyAscii = 0
-        
+
     End If
     
 End Sub

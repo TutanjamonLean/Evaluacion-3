@@ -36,32 +36,40 @@ Public Function Añadir(Nombre As String, Apellido As String, Direccion As String
     
      
 End Function
-'Public Function ModificarCampo(Nombre2 As String, Apellido2 As String, Direccion2 As String, CUIT2 As String) As Boolean
-'
-'
-'    registro.Index = "IndiceCuit"
-'    registro.Seek "=", CUIT2
-'
-'    If registro.NoMatch = False Then
-'        If registro.Fields("Cuit") = CUIT2 Then
-'            registro.Edit
-'            registro.Fields("Nombre") = Nombre2
-'            registro.Fields("Apellido") = Apellido2
-'            registro.Fields("Direccion") = Direccion2
-'            registro.Update
-'            ModificarCampo = True
-'        End If
-'    End If
-'
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+Public Function ModificarCampo(newNombre As String, newApellido As String, newDireccion As String, CUIT2 As String)
+
+
+    registro.Index = "IndiceCuit"
+    registro.Seek "=", CUIT2
+
+    If registro.NoMatch = False Then
+        If registro.Fields("Cuit") = CUIT2 Then
+            registro.Edit
+            registro.Fields("Nombre") = newNombre
+            registro.Fields("Apellido") = newApellido
+            registro.Fields("Direccion") = newDireccion
+            registro.Update
+        End If
+    End If
 
 End Function
+Public Function BorrarDato(CuitDel As String) As Boolean
+
+    registro.Index = "IndiceCuit"
+    registro.Seek "=", CuitDel
+
+    If registro.NoMatch = False Then
+        If registro.Fields("Cuit") = CuitDel Then
+            registro.Delete
+            BorrarDato = True
+        End If
+    End If
+    
+    Exit Function
+
+
+End Function
+
+
+
+
