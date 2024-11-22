@@ -12,6 +12,14 @@ Begin VB.Form Form2
    ScaleWidth      =   19710
    StartUpPosition =   3  'Windows Default
    WindowState     =   2  'Maximized
+   Begin VB.CommandButton Command9 
+      Caption         =   "Command9"
+      Height          =   855
+      Left            =   960
+      TabIndex        =   33
+      Top             =   3720
+      Width           =   1455
+   End
    Begin VB.Frame Frame2 
       BackColor       =   &H80000018&
       Caption         =   "Productos"
@@ -481,15 +489,14 @@ Private Sub Command1_Click()
         
         MsgBox "Todos los campos son obligatorios", vbCritical, "Error"
         
-        Exit Sub
-    End If
+        
 
-    If ConductorCli.Añadir(CStr(nom), CStr(ape), CStr(dire), CStr(CUIT)) = True Then
+    ElseIf ConductorCli.Añadir(CStr(nom), CStr(ape), CStr(dire), CStr(CUIT)) = True Then
         
         MsgBox "añadido al sistema", vbInformation, "Exito"
         
         
-        With Grilla2
+        With Grilla
                 .Rows = .Rows + 1
                 .TextMatrix(.Rows - 1, 0) = "Cliente"
                 .TextMatrix(.Rows - 1, 1) = nom
@@ -635,7 +642,6 @@ cont = 1
             End With
             
             cont = cont + 1
-            ConductorCli.registro.MoveNext
 
         Loop
 
@@ -682,9 +688,14 @@ Private Sub Command5_Click()
     
 End Sub
 
+Private Sub Command9_Click()
+    Form3.Show
+    Unload Me
+End Sub
+
 Private Sub Form_Load()
     
-    ConductorCli.Conector2 ("Clientes")
+    ConductorCli.Conector2 ("Cliente")
     ConductorPro.Conector2 ("Productos")
     
     List1.AddItem "cliente"
@@ -737,6 +748,12 @@ Private Sub Form_Load()
 
 End Sub
 
+Private Sub Grilla_Click()
+    
+    Grilla
+    
+End Sub
+
 Private Sub List1_Click()
 
    If List1.ListIndex = 0 Then
@@ -744,6 +761,7 @@ Private Sub List1_Click()
         Frame1.Visible = True
         Grilla.Visible = True
         Frame2.Visible = False
+        Grilla2.Visible = False
         
     ElseIf List1.ListIndex = 1 Then
         

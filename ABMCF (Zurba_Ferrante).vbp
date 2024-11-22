@@ -7,6 +7,7 @@ Class=Conexion; ABMCF.cls
 Form=Clientes(Zueba_Ferrante).frm
 Class=CLientes; Clientes.cls
 Class=Productos; Productos.cls
+Form=Facturacion(Zurba_Ferrante).frm
 Startup="Form1"
 Command32=""
 Name="Proyecto1"

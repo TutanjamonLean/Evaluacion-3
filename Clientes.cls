@@ -22,7 +22,6 @@ Public Function Conector2(NombreDetabla As String)
    
 End Function
 Public Function Añadir(Nombre As String, Apellido As String, Direccion As String, CUIT As String) As Boolean
-Dim pepe As Boolean
     
 
     registro.Index = "IndiceCuit"
@@ -72,6 +71,7 @@ Public Function BorrarDato(cuitDel As String) As Boolean
     If registro.NoMatch = False Then
         If registro.Fields("Cuit") = cuitDel Then
             registro.Delete
+            registro.Update
             BorrarDato = True
         End If
     End If
