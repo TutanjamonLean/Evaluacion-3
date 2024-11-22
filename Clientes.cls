@@ -22,8 +22,18 @@ Public Function Conector2(NombreDetabla As String)
    
 End Function
 Public Function Añadir(Nombre As String, Apellido As String, Direccion As String, CUIT As String) As Boolean
+Dim pepe As Boolean
+    
+
+    registro.Index = "IndiceCuit"
+    registro.Seek "=", CUIT
 
 
+    If registro.NoMatch = False Then
+       'Si existe es falso
+        Exit Function
+    Else
+    
             registro.AddNew
             registro.Fields("Nombre") = Nombre
             registro.Fields("Apellido") = Apellido
@@ -31,35 +41,36 @@ Public Function Añadir(Nombre As String, Apellido As String, Direccion As String
             registro.Fields("Cuit") = CUIT
             registro.Update
             Añadir = True
-            
+    End If
             
     
      
 End Function
-Public Function ModificarCampo(newNombre As String, newApellido As String, newDireccion As String, CUIT2 As String)
+Public Function ModificarCampo(newNombre As String, newApellido As String, newDireccion As String, CUIT2 As String) As Boolean
 
-
+    
     registro.Index = "IndiceCuit"
     registro.Seek "=", CUIT2
 
-    If registro.NoMatch = False Then
+     If Not registro.NoMatch Then
         If registro.Fields("Cuit") = CUIT2 Then
             registro.Edit
             registro.Fields("Nombre") = newNombre
             registro.Fields("Apellido") = newApellido
             registro.Fields("Direccion") = newDireccion
             registro.Update
+            ModificarCampo = True
         End If
     End If
 
 End Function
-Public Function BorrarDato(CuitDel As String) As Boolean
+Public Function BorrarDato(cuitDel As String) As Boolean
 
     registro.Index = "IndiceCuit"
-    registro.Seek "=", CuitDel
+    registro.Seek "=", cuitDel
 
     If registro.NoMatch = False Then
-        If registro.Fields("Cuit") = CuitDel Then
+        If registro.Fields("Cuit") = cuitDel Then
             registro.Delete
             BorrarDato = True
         End If
